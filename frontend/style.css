@@ -1,0 +1,255 @@
+/* ─── Reset & Base ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen { width: 100%; }
+.hidden { display: none !important; }
+
+/* ─── Кнопки ─── */
+.btn-primary {
+  background: #4f8ef7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: #3a7ae0; }
+.btn-primary:disabled { background: #555; cursor: not-allowed; }
+
+.btn-secondary {
+  background: transparent;
+  color: #e07c7c;
+  border: 2px solid #e07c7c;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { background: #e07c7c; color: #fff; }
+
+/* ─── Старт ─── */
+#screen-start {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.start-card {
+  background: #16213e;
+  border-radius: 16px;
+  padding: 48px 40px;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+
+.start-card h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #4f8ef7;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.start-card label {
+  font-size: 0.85rem;
+  color: #9aa;
+  margin-bottom: 2px;
+}
+
+.start-card input[type="text"],
+.start-card input[type="number"] {
+  background: #0f3460;
+  border: 1px solid #2a4a7a;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  padding: 10px 14px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.start-card input:focus { border-color: #4f8ef7; }
+
+.field-size-row {
+  display: flex;
+  gap: 16px;
+}
+.field-size-row > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.error-msg {
+  color: #e07c7c;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* ─── Игра ─── */
+#screen-game {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #16213e;
+  padding: 12px 24px;
+  border-bottom: 1px solid #2a4a7a;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.header-left { display: flex; flex-direction: column; gap: 2px; }
+
+.player-name { font-size: 1.1rem; font-weight: 700; color: #4f8ef7; }
+.game-id { font-size: 0.7rem; color: #556; word-break: break-all; }
+
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+}
+.score-label { color: #9aa; }
+.score-value { font-size: 1.4rem; font-weight: 700; }
+.score-sep { color: #556; }
+
+/* ─── Поле ─── */
+#board-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow: auto;
+}
+
+#board-container {
+  display: grid;
+  border: 2px solid #2a4a7a;
+  border-radius: 4px;
+  overflow: hidden;
+  /* grid-template-columns задаётся из JS */
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #1e3060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+  user-select: none;
+  position: relative;
+}
+
+.cell:hover.empty { background: #1e3a6e; }
+
+/* Клетка игрока — синий крестик */
+.cell.player {
+  cursor: default;
+  background: #0d2a52;
+}
+.cell.player::before,
+.cell.player::after {
+  content: '';
+  position: absolute;
+  background: #4f8ef7;
+  border-radius: 2px;
+}
+.cell.player::before { width: 60%; height: 4px; }
+.cell.player::after  { width: 4px; height: 60%; }
+
+/* Клетка AI — красный кружок */
+.cell.ai {
+  cursor: default;
+  background: #2a1212;
+}
+.cell.ai::before {
+  content: '';
+  position: absolute;
+  width: 55%;
+  height: 55%;
+  border: 4px solid #e07c7c;
+  border-radius: 50%;
+}
+
+/* Горящая клетка */
+.cell.fire-place {
+  background: #5a2800;
+  cursor: default;
+  font-size: 1.1rem;
+}
+.cell.fire-place::after { content: '🔥'; position: absolute; }
+
+/* Стена */
+.cell.wall {
+  background: #2a2a2a;
+  cursor: default;
+}
+
+/* ─── Статус ─── */
+#status-msg {
+  margin-top: 12px;
+  min-height: 24px;
+  font-size: 0.9rem;
+  color: #9aa;
+}
+
+/* ─── Оверлей победителя ─── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.overlay-card {
+  background: #16213e;
+  border-radius: 16px;
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+}
+
+.overlay-text {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+.overlay-text.win  { color: #4f8ef7; }
+.overlay-text.lose { color: #e07c7c; }

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrusadeFive</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== ЭКРАН СТАРТА ===== -->
+  <div id="screen-start" class="screen">
+    <div class="start-card">
+      <h1>CrusadeFive</h1>
+
+      <label for="input-name">Имя игрока</label>
+      <input id="input-name" type="text" value="Игрок 1" maxlength="30" />
+
+      <div class="field-size-row">
+        <div>
+          <label for="input-width">Ширина поля</label>
+          <input id="input-width" type="number" value="15" min="5" max="30" />
+        </div>
+        <div>
+          <label for="input-height">Высота поля</label>
+          <input id="input-height" type="number" value="15" min="5" max="30" />
+        </div>
+      </div>
+
+      <button id="btn-start" class="btn-primary">Начать игру</button>
+      <p id="start-error" class="error-msg hidden"></p>
+    </div>
+  </div>
+
+  <!-- ===== ЭКРАН ИГРЫ ===== -->
+  <div id="screen-game" class="screen hidden">
+
+    <header class="game-header">
+      <div class="header-left">
+        <span id="hdr-player-name" class="player-name"></span>
+        <span id="hdr-game-id" class="game-id"></span>
+      </div>
+      <div class="header-center">
+        <span class="score-label">Игрок:</span>
+        <span id="hdr-player-score" class="score-value">0</span>
+        <span class="score-sep">|</span>
+        <span class="score-label">AI:</span>
+        <span id="hdr-ai-score" class="score-value">0</span>
+      </div>
+      <div class="header-right">
+        <button id="btn-restart" class="btn-secondary">Перезапуск</button>
+      </div>
+    </header>
+
+    <div id="board-wrapper">
+      <div id="board-container">
+        <!-- клетки рендерятся через JS -->
+      </div>
+      <div id="status-msg"></div>
+    </div>
+
+    <!-- Оверлей победителя -->
+    <div id="overlay-winner" class="overlay hidden">
+      <div class="overlay-card">
+        <div id="overlay-text" class="overlay-text"></div>
+        <button id="btn-play-again" class="btn-primary">Играть снова</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
