@@ -11,7 +11,16 @@ import lombok.Setter;
 @AllArgsConstructor
 public class StartResponse {
 
-// ID игры — фронт будет слать его в каждом запросе
-    private String gameId;
+    String playerName;
 
+// ID игры — фронт будет слать его в каждом запросе
+    String gameId;
+
+// реальные размеры поля которые надо создать
+    Integer fieldHeight;
+    Integer fieldWidth;
+
+    int playerScore;
+    int aiScore;
+    boolean isOver;       // игра закончена?
 }

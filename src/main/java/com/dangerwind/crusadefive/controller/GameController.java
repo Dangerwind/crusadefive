@@ -9,6 +9,7 @@ import com.dangerwind.crusadefive.dto.StartRequest;
 import com.dangerwind.crusadefive.dto.StartResponse;
 import com.dangerwind.crusadefive.dto.SurrenderRequest;
 import com.dangerwind.crusadefive.dto.SurrenderResponse;
+import com.dangerwind.crusadefive.service.GameService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,33 +24,26 @@ import java.util.UUID;
 @RequestMapping("/api/v1")
 public class GameController {
 
+    GameService gameService;
+
 
     // старт игры, принимает имя игрока и за кого он играет, красные или синие
     @PostMapping("/start")
     public ResponseEntity<StartResponse> startGame(@RequestBody StartRequest request) {
 
-        String gameId = request.getGameId();
-        if (gameId == null) {
-            gameId = UUID.randomUUID().toString();
-        }
+        StartResponse ret =  gameService.startNewGame(request);
 
-        return ResponseEntity.ok(new StartResponse(gameId));
+        return ResponseEntity.ok(ret);
     }
 
     //
     @PostMapping("/move")
     public ResponseEntity<MoveResponse> move(@RequestBody MoveRequest request) {
 
-        MoveResponse response = MoveResponse.builder()
-        .gameId(request.getGameId())
-        .aiMove(new Cell(7, 8, CellType.AI))
-        .burnedCells(null)
-        .playerScore(0)
-        .aiScore(0)
-        .winner(null)
-        .build();
+        MoveResponse ret = gameService.makeMove(request);
 
-        return ResponseEntity.ok(response);
+
+        return ResponseEntity.ok(ret);
     }
 
     @PostMapping("/surrender")

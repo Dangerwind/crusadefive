@@ -119,7 +119,7 @@ async function onCellClick(e) {
     if (res.burnedCells) {
       for (const c of res.burnedCells) {
         if (c.y >= 0 && c.y < state.height && c.x >= 0 && c.x < state.width) {
-          state.board[c.y][c.x] = 'FIRE_PLACE';
+          state.board[c.y][c.x] = c.cellType;
         }
       }
     }
