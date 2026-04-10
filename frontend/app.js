@@ -58,7 +58,7 @@ function initBoard() {
 
 // ─── Рендер поля ─────────────────────────────────────────────────────────────
 function renderBoard() {
-  boardContainer.style.gridTemplateColumns = `repeat(${state.width}, 40px)`;
+  boardContainer.style.gridTemplateColumns = `repeat(${state.width}, 48px)`;
   boardContainer.innerHTML = '';
 
   for (let y = 0; y < state.height; y++) {
