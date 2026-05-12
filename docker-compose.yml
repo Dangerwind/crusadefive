@@ -2,12 +2,14 @@ version: "3.9"
 
 services:
   app:
+    restart: unless-stopped
     build: .
     container_name: crusadefive
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/crusadefive
@@ -24,6 +26,11 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cr_user"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   pgdata:
