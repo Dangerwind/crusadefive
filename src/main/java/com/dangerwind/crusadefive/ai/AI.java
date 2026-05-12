@@ -190,37 +190,37 @@ public class AI {
         return new Cell(maxXY[0], maxXY[1], CellType.AI);
     }
 
-// чем закрашиваем клетки
-public static List<Cell> burnCells(CellType[][] board, int startX, int startY, CellType type) {
-    List<Cell> burned = new ArrayList<>();
-    Queue<int[]> queue = new LinkedList<>();
+    // чем закрашиваем клетки
+    public static List<Cell> burnCells(CellType[][] board, int startX, int startY, CellType type) {
+        List<Cell> burned = new ArrayList<>();
+        Queue<int[]> queue = new LinkedList<>();
 
 
 
-    board[startX][startY] = type;
-    queue.add(new int[]{startX, startY});
-    burned.add(new Cell(startX, startY, type)); // первая клетка сгорела
+        board[startX][startY] = type;
+        queue.add(new int[]{startX, startY});
+        burned.add(new Cell(startX, startY, type)); // первая клетка сгорела
 
-    int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1}}; // все 8 направлений
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {-1, -1}, {1, -1}, {-1, 1}}; // все 8 направлений
 
-    while (!queue. isEmpty()) {
-        int[] cell = queue.poll();
-        int x = cell[0];
-        int y = cell[1];
+        while (!queue. isEmpty()) {
+            int[] cell = queue.poll();
+            int x = cell[0];
+            int y = cell[1];
 
-        for (int[] dir : directions) {
-            int nx = x + dir[0];
-            int ny = y + dir[1];
+            for (int[] dir : directions) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
 
-            if (isInBoard(board, nx, ny) && ( board[nx][ny] == CellType.AI || board[nx][ny] == CellType.PLAYER) ) {
-                board[nx][ny] = type;
-                queue.add(new int[]{nx, ny});
-                burned.add(new Cell(nx, ny, type));
-                System.out.println("  Сгорела клетка: (" + nx + ", " + ny + ") всего=" + queue.size());
+                if (isInBoard(board, nx, ny) && ( board[nx][ny] == CellType.AI || board[nx][ny] == CellType.PLAYER) ) {
+                    board[nx][ny] = type;
+                    queue.add(new int[]{nx, ny});
+                    burned.add(new Cell(nx, ny, type));
+                    System.out.println("  Сгорела клетка: (" + nx + ", " + ny + ") всего=" + queue.size());
+                }
             }
         }
-    }
 
-    return burned;
-}
+        return burned;
+    }
 }

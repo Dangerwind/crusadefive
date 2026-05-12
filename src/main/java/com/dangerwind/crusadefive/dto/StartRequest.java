@@ -18,6 +18,8 @@ public class StartRequest {
 
 // если gameID есть, то размеры не имеют значения, так как они уже были заданы при создании игры,
 // а если gameID нет, то эти поля должны быть заполнены, так как они нужны для создания новой игры
-    Integer fieldHeight;
-    Integer fieldWidth;
+   // Integer fieldHeight;
+   // Integer fieldWidth;
+
+    Integer gameLevel;
 }

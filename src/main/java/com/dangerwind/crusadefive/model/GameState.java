@@ -23,4 +23,8 @@ public class GameState {
     int playerScore;
     int aiScore;
     boolean isOver;       // игра закончена?
+    CellType winner;      // кто выиграл
+
+    int gameLevel;
+    String gameLevelName;
 }

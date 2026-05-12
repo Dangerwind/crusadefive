@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,4 +25,10 @@ public class StartResponse {
     int playerScore;
     int aiScore;
     boolean isOver;       // игра закончена?
+
+    int gameLevel;
+
+    String gameLevelName;  // название уровня
+
+    List<Cell> board;     // не-EMPTY клетки начального состояния поля
 }

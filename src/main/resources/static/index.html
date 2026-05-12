@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrusadeFive</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== ЭКРАН СТАРТА ===== -->
+  <div id="screen-start" class="screen">
+    <!-- Фоновое изображение -->
+    <div class="start-bg"></div>
+
+    <!-- Кнопка музыки -->
+    <button id="btn-music-start" class="music-btn" title="Вкл/Выкл музыку">
+      <svg class="speaker-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+      </svg>
+      <svg class="speaker-muted" viewBox="0 0 24 24" fill="currentColor" style="display:none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+        <line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- Логотип игры -->
+    <div class="start-logo">
+      <img src="image/crusade-logo.png" alt="CrusadeFive" />
+    </div>
+
+    <!-- Основной контент - три колонки -->
+    <div class="start-content">
+      <!-- ЛЕВАЯ КОЛОНКА: Приветствие игрока -->
+      <div class="start-column start-column-left">
+        <!-- Секция возвращающегося игрока -->
+        <div id="section-returning" class="hidden">
+          <div class="player-welcome-card">
+            <h2 class="welcome-title">Добро пожаловать!</h2>
+            <p id="welcome-name" class="welcome-name"></p>
+            <div class="player-stats">
+              <div class="stat-item">
+                <span class="stat-label">Счёт</span>
+                <span id="welcome-score" class="stat-value">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Уровень</span>
+                <span id="welcome-level" class="stat-value">1</span>
+              </div>
+            </div>
+            <div class="welcome-buttons">
+              <button id="btn-continue" class="btn-primary">Продолжить</button>
+              <button id="btn-new-game" class="btn-secondary">Начать заново</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Секция нового игрока -->
+        <div id="section-new" class="hidden">
+          <div class="player-welcome-card">
+            <h2 class="welcome-title">Новый игрок</h2>
+            <div class="input-group">
+              <label for="input-name">Введи своё имя</label>
+              <input id="input-name" type="text" value="" maxlength="30" placeholder="Имя игрока" />
+            </div>
+            <button id="btn-start" class="btn-primary">Начать игру</button>
+          </div>
+        </div>
+
+        <p id="start-error" class="error-msg hidden"></p>
+      </div>
+
+      <!-- ЦЕНТРАЛЬНАЯ КОЛОНКА: Выбор уровня -->
+      <div class="start-column start-column-center">
+        <div class="level-selection-card">
+          <h2 class="level-title">Выбор уровня</h2>
+          <div class="level-table" id="level-row-main">
+            <!-- Уровни загружаются динамически из /api/v1/levels -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ПРАВАЯ КОЛОНКА: Рейтинг -->
+      <div class="start-column start-column-right">
+        <div class="rating-card">
+          <h2 class="rating-title">Рейтинг игроков</h2>
+          <div class="rating-table-wrapper">
+            <table id="stats-table" class="rating-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>имя</th>
+                  <th>счет</th>
+                  <th>дата</th>
+                </tr>
+              </thead>
+              <tbody id="stats-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ЭКРАН ИГРЫ ===== -->
+  <div id="screen-game" class="screen hidden">
+    <!-- Фоновое изображение -->
+    <div class="game-bg"></div>
+
+    <header class="game-header">
+      <div class="header-left">
+        <span id="hdr-level-name" class="level-name"></span>
+      </div>
+      <div class="header-center">
+        <span id="hdr-player-name" class="player-name"></span>
+        <span class="score-value-inline" id="hdr-player-score">0</span>
+        <span class="score-sep">|</span>
+        <span class="score-label">Противник</span>
+        <span class="score-value-inline" id="hdr-ai-score">0</span>
+      </div>
+      <div class="header-right">
+        <button id="btn-music-game" class="music-btn" title="Вкл/Выкл музику">
+          <svg class="speaker-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+          </svg>
+          <svg class="speaker-muted" viewBox="0 0 24 24" fill="currentColor" style="display:none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+            <line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="menu-wrap">
+          <button id="btn-menu" class="btn-secondary">Меню ▾</button>
+          <div id="game-menu" class="game-menu hidden">
+            <button id="menu-surrender">Сдаться и начать заново</button>
+            <button id="menu-save-exit">Сохранить и выйти</button>
+            <button id="menu-rules">Правила игры</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="board-wrapper">
+      <div id="board-area">
+        <div class="knight-deco knight-deco-blue"></div>
+        <div class="knight-deco knight-deco-red"></div>
+        <div id="board-container">
+          <!-- клетки рендерятся через JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Оверлей победителя -->
+    <div id="overlay-winner" class="overlay hidden">
+      <div class="overlay-card">
+        <div id="overlay-text" class="overlay-text"></div>
+        <div class="overlay-buttons">
+          <button id="btn-play-again" class="btn-primary">Повторим?</button>
+          <button id="btn-next-level" class="btn-next-level">Попробуем уровень посложнее?</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
